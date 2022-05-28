@@ -21,9 +21,7 @@ func TestMain(m *testing.M) {
 	viper.SetConfigName("app")
 	viper.SetConfigType("yaml")
 	viper.AutomaticEnv()
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("failed to read config using viper: %s", err)
-	}
+	viper.ReadInConfig()
 	var conf service.Config
 	if err := viper.Unmarshal(&conf); err != nil {
 		log.Fatalf("failed to unmarshal config: %s", err)
