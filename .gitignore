@@ -1,0 +1,6 @@
+.idea/
+.air.toml
+logs/
+tmp/
+bin/
+app.yml

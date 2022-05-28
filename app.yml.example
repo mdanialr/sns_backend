@@ -1,0 +1,6 @@
+env: #dev|prod default to dev
+host: #default to 127.0.0.1
+port: #default to 7575
+log: #default to ./logs/
+db_driver: # database driver, only support postgres. default to postgres
+db_source: #database connection string
