@@ -36,7 +36,7 @@ jobs:
 
       - name: Setup Database
         run: |
-          make create-db
+          docker exec -i postgre14-for-testing createdb --username=postgres sns
           DBPORT=5450 make migrate
 
       - name: Test
