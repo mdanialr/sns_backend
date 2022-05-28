@@ -14,9 +14,11 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+      - name: Setup Docker
+        run: DBPORT=5450 make setup-docker
+
       - name: Setup Database
         run: |
-          DBPORT=5450 make setup-docker
           make create-db
           DBPORT=5450 make migrate
 
