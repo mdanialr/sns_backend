@@ -1,0 +1,24 @@
+on: workflow_call
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.18
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Setup Database
+        run: |
+          DBPORT=5450 make setup-docker
+          make create-db
+          DBPORT=5450 make migrate
+
+      - name: Test
+        run: go test -v ./...
