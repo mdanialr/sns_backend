@@ -20,13 +20,21 @@ func TestMain(m *testing.M) {
 	viper.AddConfigPath("../../../")
 	viper.SetConfigName("app")
 	viper.SetConfigType("yaml")
-	viper.AutomaticEnv()
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("failed to read config using viper: %s", err)
-	}
+	viper.ReadInConfig()
 	var conf service.Config
 	if err := viper.Unmarshal(&conf); err != nil {
 		log.Fatalf("failed to unmarshal config: %s", err)
+	}
+
+	viper.AutomaticEnv()
+
+	// try to read from ENV variables
+	dbDriver := os.Getenv("db_driver")
+	dbSrc := os.Getenv("db_source")
+
+	if dbDriver != "" && dbSrc != "" {
+		conf.DBDriver = dbDriver
+		conf.DBSource = dbSrc
 	}
 
 	db, err := sql.Open(conf.DBDriver, conf.DBSource)

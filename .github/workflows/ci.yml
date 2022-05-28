@@ -3,6 +3,20 @@ on: workflow_call
 jobs:
   build-and-test:
     runs-on: ubuntu-20.04
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5450:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name postgre14-for-testing
+
     steps:
       - uses: actions/checkout@v2
 
@@ -14,13 +28,19 @@ jobs:
       - name: Build
         run: go build -v ./...
 
-      - name: Setup Docker
-        run: DBPORT=5450 make setup-docker
+      - name: Install golang-migrate
+        run: |
+          curl -L https://github.com/golang-migrate/migrate/releases/download/v4.15.2/migrate.linux-amd64.tar.gz | tar xvz
+          sudo mv migrate /usr/bin/
+          which migrate
 
       - name: Setup Database
         run: |
-          make create-db
+          docker exec -i postgre14-for-testing createdb --username=postgres sns
           DBPORT=5450 make migrate
 
       - name: Test
-        run: go test -v ./...
+        run: |
+          export db_driver=postgres
+          export db_source="postgresql://postgres:postgres@127.0.0.1:5450/sns?sslmode=disable"
+          go test -v ./...
