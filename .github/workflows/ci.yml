@@ -39,10 +39,8 @@ jobs:
           docker exec -i postgre14-for-testing createdb --username=postgres sns
           DBPORT=5450 make migrate
 
-      - name: Set Env for Database Test
+      - name: Test
         run: |
           export db_driver=postgres
           export db_source="postgresql://postgres:postgres@127.0.0.1:5450/sns?sslmode=disable"
-
-      - name: Test
-        run: go test -v ./...
+          go test -v ./...
