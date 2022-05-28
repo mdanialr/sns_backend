@@ -42,7 +42,7 @@ jobs:
       - name: Set Env for Database Test
         run: |
           export db_driver=postgres
-          export db_source=postgresql://postgres:postgres@127.0.0.1:5450/sns?sslmode=disable
+          export db_source="postgresql://postgres:postgres@127.0.0.1:5450/sns?sslmode=disable"
 
       - name: Test
         run: go test -v ./...

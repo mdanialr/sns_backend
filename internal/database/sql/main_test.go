@@ -27,6 +27,16 @@ func TestMain(m *testing.M) {
 	}
 
 	viper.AutomaticEnv()
+
+	// try to read from ENV variables
+	dbDriver := os.Getenv("db_driver")
+	dbSrc := os.Getenv("db_source")
+
+	if dbDriver != "" && dbSrc != "" {
+		conf.DBDriver = dbDriver
+		conf.DBSource = dbSrc
+	}
+
 	db, err := sql.Open(conf.DBDriver, conf.DBSource)
 	if err != nil {
 		log.Fatalf("failed to open connection to database: %s", err)
