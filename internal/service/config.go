@@ -11,12 +11,11 @@ import (
 // The values are read by viper from a config file or env variables.
 type Config struct {
 	EnvIsProd bool
-	Env       string `mapstructure:"env"`
-	Host      string `mapstructure:"host"`
-	PortNum   string `mapstructure:"port"`
-	LogDir    string `mapstructure:"log"`
-	DBDriver  string `mapstructure:"db_driver"`
-	DBSource  string `mapstructure:"db_source"`
+	Env       string     `mapstructure:"env"`
+	Host      string     `mapstructure:"host"`
+	PortNum   string     `mapstructure:"port"`
+	LogDir    string     `mapstructure:"log"`
+	DB        DBPostgres `mapstructure:"db"`
 }
 
 // NewConfig create new Config instance by reading from file or env variable.
