@@ -18,7 +18,7 @@ var (
 
 func TestMain(m *testing.M) {
 	// read from ENV variables
-	dbPort, _ := strconv.ParseUint(os.Getenv("DB_PORT"), 10, 8)
+	dbPort, _ := strconv.ParseUint(os.Getenv("DB_PORT"), 10, 16)
 	dbConfig := service.DBPostgres{
 		Name: os.Getenv("DB_NAME"),
 		Host: os.Getenv("DB_HOST"),
