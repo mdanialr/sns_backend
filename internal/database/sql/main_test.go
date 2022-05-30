@@ -4,11 +4,11 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strconv"
 	"testing"
 
 	_ "github.com/lib/pq"
 	"github.com/mdanialr/sns_backend/internal/service"
-	"github.com/spf13/viper"
 )
 
 var (
@@ -17,27 +17,17 @@ var (
 )
 
 func TestMain(m *testing.M) {
-	viper.AddConfigPath("../../../")
-	viper.SetConfigName("app")
-	viper.SetConfigType("yaml")
-	viper.ReadInConfig()
-	var conf service.Config
-	if err := viper.Unmarshal(&conf); err != nil {
-		log.Fatalf("failed to unmarshal config: %s", err)
+	// read from ENV variables
+	dbPort, _ := strconv.ParseUint(os.Getenv("DB_PORT"), 10, 8)
+	dbConfig := service.DBPostgres{
+		Name: os.Getenv("DB_NAME"),
+		Host: os.Getenv("DB_HOST"),
+		Port: uint(dbPort),
+		User: os.Getenv("DB_USER"),
+		Pass: os.Getenv("DB_PASS"),
 	}
 
-	viper.AutomaticEnv()
-
-	// try to read from ENV variables
-	dbDriver := os.Getenv("db_driver")
-	dbSrc := os.Getenv("db_source")
-
-	if dbDriver != "" && dbSrc != "" {
-		conf.DBDriver = dbDriver
-		conf.DBSource = dbSrc
-	}
-
-	db, err := sql.Open(conf.DBDriver, conf.DBSource)
+	db, err := sql.Open(dbConfig.GetDriver(), dbConfig.GenerateConnectionString())
 	if err != nil {
 		log.Fatalf("failed to open connection to database: %s", err)
 	}
