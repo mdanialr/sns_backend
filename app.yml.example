@@ -1,6 +1,11 @@
-env: #dev|prod default to dev
-host: #default to 127.0.0.1
-port: #default to 7575
-log: #default to ./logs/
-db_driver: # database driver, only support postgres. default to postgres
-db_source: #database connection string
+env: # dev|prod. default to dev
+host: # default to 127.0.0.1
+port: # default to 7575
+log: # default to /tmp/
+db:
+  name: # the name of the database. default to postgres
+  host: # the hostname where the database is connected to. default to 127.0.0.1
+  port: # the http port where the database is connected to. default to 5432
+  user: # the user that would be used to connect to the database. default to postgres
+  pass: # the user's password that would be used to connect to the database. default to postgres
+  ssl: # ssl mode of this connection. default to false
