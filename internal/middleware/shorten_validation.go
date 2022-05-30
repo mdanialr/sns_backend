@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/mdanialr/sns_backend/internal/api/v1"
+	"github.com/mdanialr/sns_backend/internal/api/v1/shorten"
 	"github.com/mdanialr/sns_backend/internal/service"
 )
 
