@@ -9,7 +9,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: postgres
         ports:
-          - 5450:5432
+          - 5432:5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -37,10 +37,13 @@ jobs:
       - name: Setup Database
         run: |
           docker exec -i postgre14-for-testing createdb --username=postgres sns
-          DBPORT=5450 make migrate
+          DBPORT=5432 make migrate
 
       - name: Test
         run: |
-          export db_driver=postgres
-          export db_source="postgresql://postgres:postgres@127.0.0.1:5450/sns?sslmode=disable"
+          export DB_NAME=sns
+          export DB_HOST=127.0.0.1
+          export DB_PORT=5432
+          export DB_USER=postgres
+          export DB_PASS=postgres
           go test -v ./...

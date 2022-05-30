@@ -49,7 +49,7 @@ func main() {
 	defer fl.Close()
 
 	// setup database instance
-	db, err := sql.Open(appConfig.DBDriver, appConfig.DBSource)
+	db, err := sql.Open(appConfig.DB.GetDriver(), appConfig.DB.GenerateConnectionString())
 	if err != nil {
 		log.Fatalln("failed to open connection to database:", err)
 	}
