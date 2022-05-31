@@ -32,7 +32,8 @@ func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *databas
 	apiRoute := app.Group("/api")
 
 	v1 := apiRoute.Group("/v1")
-	v1.Post("/shorten",
+	sh := v1.Group("/shorten")
+	sh.Post("/",
 		middleware.CreateShortenValidation,
 		api.CreateShorten(db),
 	)
