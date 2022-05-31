@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/helmet/v2"
-	"github.com/mdanialr/sns_backend/internal/api/v1"
+	api "github.com/mdanialr/sns_backend/internal/api/v1/shorten"
 	database "github.com/mdanialr/sns_backend/internal/database/sql"
 	"github.com/mdanialr/sns_backend/internal/middleware"
 	"github.com/mdanialr/sns_backend/internal/service"
