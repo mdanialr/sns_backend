@@ -39,6 +39,9 @@ func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *databas
 		middleware.CreateShortenValidation,
 		api.CreateShorten(db),
 	)
+	sh.Get("/:id",
+		api.GetShortenDetail(db),
+	)
 
 	// Custom middleware AFTER endpoints
 	//app.Use(api.DefaultRouteNotFound)
