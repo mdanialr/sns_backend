@@ -140,7 +140,7 @@ func TestQueries_GetShortenByUrl(t *testing.T) {
 }
 
 func TestQueries_ListShorten(t *testing.T) {
-	shortens, err := testQueries.ListShorten(context.Background())
+	shortens, err := testQueries.ListShorten(context.Background(), "updated_at", ASC)
 	require.NoError(t, err)
 
 	assert.Less(t, 1, len(shortens), "Should has more than 1 data after deleting only one in previous test")

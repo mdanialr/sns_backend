@@ -169,18 +169,18 @@ func (mr *MockSNSMockRecorder) ListSend(arg0 interface{}) *gomock.Call {
 }
 
 // ListShorten mocks base method.
-func (m *MockSNS) ListShorten(arg0 context.Context) ([]database.Shorten, error) {
+func (m *MockSNS) ListShorten(arg0 context.Context, arg1 string, arg2 database.DBOrder) ([]database.Shorten, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListShorten", arg0)
+	ret := m.ctrl.Call(m, "ListShorten", arg0, arg1, arg2)
 	ret0, _ := ret[0].([]database.Shorten)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListShorten indicates an expected call of ListShorten.
-func (mr *MockSNSMockRecorder) ListShorten(arg0 interface{}) *gomock.Call {
+func (mr *MockSNSMockRecorder) ListShorten(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListShorten", reflect.TypeOf((*MockSNS)(nil).ListShorten), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListShorten", reflect.TypeOf((*MockSNS)(nil).ListShorten), arg0, arg1, arg2)
 }
 
 // UpdateSend mocks base method.
