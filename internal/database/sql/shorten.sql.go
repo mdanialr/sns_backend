@@ -86,41 +86,6 @@ func (q *Queries) GetShortenByUrl(ctx context.Context, url string) (Shorten, err
 	return i, err
 }
 
-const listShorten = `-- name: ListShorten :many
-SELECT id, url, target, permanent, created_at, updated_at FROM shorten
-ORDER BY updated_at
-`
-
-func (q *Queries) ListShorten(ctx context.Context) ([]Shorten, error) {
-	rows, err := q.db.QueryContext(ctx, listShorten)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Shorten
-	for rows.Next() {
-		var i Shorten
-		if err := rows.Scan(
-			&i.ID,
-			&i.Url,
-			&i.Target,
-			&i.Permanent,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const updateShorten = `-- name: UpdateShorten :one
 UPDATE shorten
 set url = $2,
