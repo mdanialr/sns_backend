@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/helmet/v2"
 	"github.com/mdanialr/sns_backend/internal/api/v1"
 	database "github.com/mdanialr/sns_backend/internal/database/sql"
 	"github.com/mdanialr/sns_backend/internal/middleware"
@@ -15,6 +16,7 @@ import (
 func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *database.Queries) {
 	// Built-in fiber middleware
 	app.Use(recover.New())
+	app.Use(helmet.New())
 	// Use log file only in production otherwise output it to stdout
 	switch conf.EnvIsProd {
 	case true:
