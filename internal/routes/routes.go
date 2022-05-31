@@ -6,7 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/mdanialr/sns_backend/internal/api/v1/shorten"
+	"github.com/gofiber/helmet/v2"
+	"github.com/mdanialr/sns_backend/internal/api/v1"
 	database "github.com/mdanialr/sns_backend/internal/database/sql"
 	"github.com/mdanialr/sns_backend/internal/middleware"
 	"github.com/mdanialr/sns_backend/internal/service"
@@ -15,6 +16,7 @@ import (
 func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *database.Queries) {
 	// Built-in fiber middleware
 	app.Use(recover.New())
+	app.Use(helmet.New())
 	// Use log file only in production otherwise output it to stdout
 	switch conf.EnvIsProd {
 	case true:
@@ -32,7 +34,8 @@ func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *databas
 	apiRoute := app.Group("/api")
 
 	v1 := apiRoute.Group("/v1")
-	v1.Post("/shorten",
+	sh := v1.Group("/shorten")
+	sh.Post("/",
 		middleware.CreateShortenValidation,
 		api.CreateShorten(db),
 	)
