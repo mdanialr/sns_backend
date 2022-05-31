@@ -6,10 +6,6 @@ WHERE id = $1 LIMIT 1;
 SELECT * FROM shorten
 WHERE url = $1 LIMIT 1;
 
--- name: ListShorten :many
-SELECT * FROM shorten
-ORDER BY updated_at;
-
 -- name: CreateShorten :one
 INSERT INTO shorten (
   url, target, permanent
