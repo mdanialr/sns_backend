@@ -7,6 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	database "github.com/mdanialr/sns_backend/internal/database/sql"
+	"github.com/mdanialr/sns_backend/internal/service"
 )
 
 // UpdateShortenPayload json payload that need to be sent for sending request to this endpoint.
@@ -25,6 +26,10 @@ func UpdateShorten(db database.SNS) func(*fiber.Ctx) error {
 			return c.JSON(fiber.Map{
 				"message": fmt.Sprintf("failed to parse json payload: %s", err),
 			})
+		}
+		// validation: if `url` field is not provided then substitute it with random string
+		if payload.Url == "" {
+			payload.Url = service.RandomString(8)
 		}
 
 		// check whether provided Url for update already exist in database or not
