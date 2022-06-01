@@ -47,10 +47,12 @@ func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *databas
 	)
 	sh.Patch("/:id",
 		middleware.IsIdExistsValidation(db),
+		middleware.CreateShortenValidation,
 		api.UpdateShorten(db),
 	)
 	sh.Put("/:id",
 		middleware.IsIdExistsValidation(db),
+		middleware.CreateShortenValidation,
 		api.UpdateShorten(db),
 	)
 	sh.Delete("/",
