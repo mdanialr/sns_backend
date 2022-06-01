@@ -27,13 +27,38 @@ func UpdateShorten(db database.SNS) func(*fiber.Ctx) error {
 			})
 		}
 
+		// check whether provided Url for update already exist in database or not
+		oldSh, _ := db.GetShortenByUrl(c.Context(), payload.Url)
+		switch payload.IsReplace {
+		case true:
+			// if provided `replace` is true then delete it.
+			// if founded data's ID with the target of update's ID is the same then do not need to delete it.
+			// otherwise if the ID of both instance is not same then delete the other data.
+			if oldSh.ID != int64(id) {
+				if err := db.DeleteShorten(c.Context(), oldSh.ID); err != nil {
+					c.Status(fiber.StatusInternalServerError)
+					return c.JSON(fiber.Map{
+						"message": fmt.Sprintf("failed to delete old shorten data with url %s: %s", oldSh.Url, err),
+					})
+				}
+			}
+		case false:
+			// if provided `replace` is false, then return error that the provided Url already exist.
+			if oldSh.ID != 0 {
+				c.Status(fiber.StatusBadRequest)
+				return c.JSON(fiber.Map{
+					"message": fmt.Sprintf("the provided url `%s` already exist", payload.Url),
+				})
+			}
+		}
+
 		var data database.UpdateShortenParams
 		// update the updated_at field
 		data.UpdatedAt = sql.NullTime{
 			Time:  time.Now(),
 			Valid: true,
 		}
-		data.ID = int64(id)
+		data.ID = oldSh.ID
 		data.Url = payload.Url
 		data.Target = payload.Target
 		data.Permanent = payload.Permanent
