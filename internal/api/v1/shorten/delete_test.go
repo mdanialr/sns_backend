@@ -64,7 +64,6 @@ func TestDeleteShorten(t *testing.T) {
 			assert.Equal(t, tc.expectCode, res.StatusCode)
 			var r JsonResponse
 			_ = json.NewDecoder(res.Body).Decode(&r)
-			fmt.Println(r.Msg)
 			assert.Contains(t, r.Msg, tc.expectMsg)
 		})
 	}
