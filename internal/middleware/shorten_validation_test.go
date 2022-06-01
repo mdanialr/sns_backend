@@ -58,14 +58,6 @@ func TestCreateShortenValidation(t *testing.T) {
 			expectStatusCode:  fiber.StatusOK,
 			expectMsg:         "success",
 		},
-		{
-			name: "Should pass and return 200 from next handler and `url` field should not be empty after" +
-				" passing this middleware",
-			sampleBody:        []byte(`{"target": "https://go.dev", "url": ""}`),
-			sampleContentType: fiber.MIMEApplicationJSON,
-			expectStatusCode:  fiber.StatusOK,
-			expectMsg:         "success",
-		},
 	}
 
 	for _, tc := range testCases {
