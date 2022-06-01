@@ -1,4 +1,5 @@
-DBPORT ?= 5438
+DB_PORT ?= 5432
+DB_NAME ?= sns
 IGNORE ?= "github.com/mdanialr/sns_backend/internal/database/sql"
 
 clean-docker:
@@ -6,7 +7,7 @@ clean-docker:
 	docker rm postgre14-for-testing
 
 setup-docker:
-	docker run --name postgre14-for-testing -e POSTGRES_PASSWORD=postgres -p "127.0.0.1:${DBPORT}:5432" -d postgres:14-alpine
+	docker run --name postgre14-for-testing -e POSTGRES_PASSWORD=postgres -p "127.0.0.1:${DB_PORT}:5432" -d postgres:14-alpine
 
 create-db:
 	docker exec -it postgre14-for-testing createdb --username=postgres sns
@@ -15,10 +16,10 @@ drop-db:
 	docker exec -it postgre14-for-testing dropdb --username=postgres sns
 
 migrate:
-	migrate -path internal/database/migration -database "postgresql://postgres:postgres@127.0.0.1:${DBPORT}/sns?sslmode=disable" -verbose up
+	migrate -path internal/database/migration -database "postgresql://postgres:postgres@127.0.0.1:${DB_PORT}/${DB_NAME}?sslmode=disable" -verbose up
 
 migrate-down:
-	migrate -path internal/database/migration -database "postgresql://postgres:postgres@127.0.0.1:${DBPORT}/sns?sslmode=disable" -verbose down -all
+	migrate -path internal/database/migration -database "postgresql://postgres:postgres@127.0.0.1:${DB_PORT}/${DB_NAME}?sslmode=disable" -verbose down -all
 
 sql:
 	sqlc generate
