@@ -42,7 +42,7 @@ func UpdateShorten(db database.SNS) func(*fiber.Ctx) error {
 		if err != nil {
 			c.Status(fiber.StatusInternalServerError)
 			return c.JSON(fiber.Map{
-				"message": fmt.Sprintf("failed to delete a shorten data with id %d and error: %s", id, err),
+				"message": fmt.Sprintf("failed to update a shorten data with id %d and error: %s", id, err),
 			})
 		}
 
