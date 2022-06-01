@@ -130,7 +130,12 @@ func TestQueries_GetShortenByUrl(t *testing.T) {
 			switch tc.wantErr {
 			case false:
 				require.NoError(t, err)
-				assert.Equal(t, *listOfShortenInstances[0], sh)
+				assert.Equal(t, listOfShortenInstances[0].ID, sh.ID)
+				assert.Equal(t, listOfShortenInstances[0].Url, sh.Url)
+				assert.Equal(t, listOfShortenInstances[0].Target, sh.Target)
+				assert.Equal(t, listOfShortenInstances[0].Permanent, sh.Permanent)
+				assert.WithinDuration(t, listOfShortenInstances[0].CreatedAt.Time, sh.CreatedAt.Time, 0)
+				assert.WithinDuration(t, listOfShortenInstances[0].UpdatedAt.Time, sh.UpdatedAt.Time, 0)
 			case true:
 				require.Error(t, err)
 				assert.Empty(t, sh, "Not found data should be empty")
