@@ -7,7 +7,6 @@ package database
 
 import (
 	"context"
-	"database/sql"
 )
 
 const createShorten = `-- name: CreateShorten :one
@@ -74,44 +73,6 @@ WHERE url = $1 LIMIT 1
 
 func (q *Queries) GetShortenByUrl(ctx context.Context, url string) (Shorten, error) {
 	row := q.db.QueryRowContext(ctx, getShortenByUrl, url)
-	var i Shorten
-	err := row.Scan(
-		&i.ID,
-		&i.Url,
-		&i.Target,
-		&i.Permanent,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-	)
-	return i, err
-}
-
-const updateShorten = `-- name: UpdateShorten :one
-UPDATE shorten
-set url = $2,
-    target = $3,
-    permanent = $4,
-    updated_at = $5
-WHERE id = $1
-RETURNING id, url, target, permanent, created_at, updated_at
-`
-
-type UpdateShortenParams struct {
-	ID        int64        `json:"id"`
-	Url       string       `json:"url"`
-	Target    string       `json:"target"`
-	Permanent bool         `json:"permanent"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
-}
-
-func (q *Queries) UpdateShorten(ctx context.Context, arg UpdateShortenParams) (Shorten, error) {
-	row := q.db.QueryRowContext(ctx, updateShorten,
-		arg.ID,
-		arg.Url,
-		arg.Target,
-		arg.Permanent,
-		arg.UpdatedAt,
-	)
 	var i Shorten
 	err := row.Scan(
 		&i.ID,

@@ -13,15 +13,6 @@ INSERT INTO shorten (
   $1, $2, $3
 ) RETURNING *;
 
--- name: UpdateShorten :one
-UPDATE shorten
-set url = $2,
-    target = $3,
-    permanent = $4,
-    updated_at = $5
-WHERE id = $1
-RETURNING *;
-
 -- name: DeleteShorten :exec
 DELETE FROM shorten
 WHERE id = $1;
