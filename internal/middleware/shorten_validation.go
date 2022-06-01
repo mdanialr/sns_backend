@@ -37,7 +37,7 @@ func IsIdExistsValidation(db database.SNS) func(*fiber.Ctx) error {
 		if sh, err := db.GetShorten(c.Context(), int64(id)); err != nil && sh.ID == 0 {
 			c.Status(fiber.StatusNotFound)
 			return c.JSON(fiber.Map{
-				"message": fmt.Sprintf("id %d is not found", sh.ID),
+				"message": fmt.Sprintf("id %d is not found", id),
 			})
 		}
 
