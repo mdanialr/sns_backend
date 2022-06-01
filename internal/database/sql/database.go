@@ -9,6 +9,7 @@ import (
 type SNS interface {
 	Querier
 	ListShorten(ctx context.Context, colName string, order DBOrder) ([]Shorten, error)
+	UpdateShorten(ctx context.Context, arg UpdateShortenParams) (Shorten, error)
 }
 
 // DB provides all functionality to interacting with database.
