@@ -15,9 +15,6 @@ import (
 )
 
 func TestGetShortenDetail(t *testing.T) {
-	type resJSON struct {
-		Msg string `json:"message"`
-	}
 	type resPassJSON struct {
 		Msg database.Shorten `json:"message"`
 	}
@@ -100,7 +97,7 @@ func TestGetShortenDetail(t *testing.T) {
 			res, _ := app.Test(req)
 
 			assert.Equal(t, tc.expectCode, res.StatusCode)
-			var r resJSON
+			var r JsonResponse
 			_ = json.NewDecoder(res.Body).Decode(&r)
 			assert.Contains(t, r.Msg, tc.expectMsg)
 		})

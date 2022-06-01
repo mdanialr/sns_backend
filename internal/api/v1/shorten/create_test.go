@@ -17,9 +17,6 @@ import (
 
 func TestCreateShorten(t *testing.T) {
 	shorten := database.Shorten{Url: "go", ID: 11}
-	type resJSON struct {
-		Msg string `json:"message"`
-	}
 
 	const testName = "Should fail when sending empty content-type and return code 400 then has expected error message"
 	t.Run(testName, func(t *testing.T) {
@@ -35,7 +32,7 @@ func TestCreateShorten(t *testing.T) {
 		res, _ := app.Test(req)
 
 		assert.Equal(t, fiber.StatusBadRequest, res.StatusCode)
-		var r resJSON
+		var r JsonResponse
 		_ = json.NewDecoder(res.Body).Decode(&r)
 		assert.Contains(t, r.Msg, "failed to parse json payload")
 	})
@@ -173,7 +170,7 @@ func TestCreateShorten(t *testing.T) {
 			res, _ := app.Test(req)
 
 			assert.Equal(t, tc.expectCode, res.StatusCode)
-			var r resJSON
+			var r JsonResponse
 			_ = json.NewDecoder(res.Body).Decode(&r)
 			assert.Contains(t, r.Msg, tc.expectMsg)
 		})
