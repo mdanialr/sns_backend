@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/mdanialr/sns_backend/internal/api/v1/shorten"
+	database "github.com/mdanialr/sns_backend/internal/database/sql"
 	"github.com/mdanialr/sns_backend/internal/service"
 )
 
@@ -32,4 +33,20 @@ func CreateShortenValidation(c *fiber.Ctx) error {
 	}
 
 	return c.Next()
+}
+
+// IsIdExistsValidation middleware that handle validation that make sure the ID in URL is exists in the database.
+func IsIdExistsValidation(db database.SNS) func(*fiber.Ctx) error {
+	return func(c *fiber.Ctx) error {
+		id, _ := c.ParamsInt("id")
+
+		if sh, err := db.GetShorten(c.Context(), int64(id)); err != nil && sh.ID == 0 {
+			c.Status(fiber.StatusNotFound)
+			return c.JSON(fiber.Map{
+				"message": fmt.Sprintf("id %d is not found", sh.ID),
+			})
+		}
+
+		return c.Next()
+	}
 }
