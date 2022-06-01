@@ -9,6 +9,7 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gofiber/fiber/v2"
+	_ "github.com/lib/pq"
 	database "github.com/mdanialr/sns_backend/internal/database/sql"
 	"github.com/mdanialr/sns_backend/internal/logger"
 	"github.com/mdanialr/sns_backend/internal/routes"
