@@ -45,7 +45,16 @@ func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *databas
 	sh.Get("/:id",
 		api.GetShortenDetail(db),
 	)
+	sh.Patch("/:id",
+		middleware.IsIdExistsValidation(db),
+		api.UpdateShorten(db),
+	)
+	sh.Put("/:id",
+		middleware.IsIdExistsValidation(db),
+		api.UpdateShorten(db),
+	)
 	sh.Delete("/",
+		middleware.IsIdExistsValidation(db),
 		api.DeleteShorten(db),
 	)
 

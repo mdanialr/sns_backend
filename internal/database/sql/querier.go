@@ -19,7 +19,6 @@ type Querier interface {
 	GetShortenByUrl(ctx context.Context, url string) (Shorten, error)
 	ListSend(ctx context.Context) ([]Send, error)
 	UpdateSend(ctx context.Context, arg UpdateSendParams) (Send, error)
-	UpdateShorten(ctx context.Context, arg UpdateShortenParams) (Shorten, error)
 }
 
 var _ Querier = (*Queries)(nil)

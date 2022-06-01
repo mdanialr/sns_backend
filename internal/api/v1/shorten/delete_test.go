@@ -10,7 +10,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang/mock/gomock"
 	mockdb "github.com/mdanialr/sns_backend/internal/database/mock"
-	database "github.com/mdanialr/sns_backend/internal/database/sql"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,28 +22,10 @@ func TestDeleteShorten(t *testing.T) {
 		expectMsg  string
 	}{
 		{
-			name: "Should fail when database failed to get the intended shorten data, this error probably caused by" +
-				" the ID is not exist in database therefor return 404 code",
-			sample: 2,
-			buildStubs: func(s *mockdb.MockSNS, id int64) {
-				s.EXPECT().
-					GetShorten(gomock.Any(), id).
-					Times(1).
-					Return(database.Shorten{ID: 0}, sql.ErrNoRows)
-			},
-			expectCode: fiber.StatusNotFound,
-			expectMsg:  "is not found",
-		},
-		{
 			name: "Should fail when database failed to delete the intended shorten data, this error should has nothing to" +
 				" do with our code but should be from database themself therefor return code 500",
 			sample: 2,
 			buildStubs: func(s *mockdb.MockSNS, id int64) {
-				s.EXPECT().
-					GetShorten(gomock.Any(), id).
-					Times(1).
-					Return(database.Shorten{ID: 12}, nil)
-
 				s.EXPECT().
 					DeleteShorten(gomock.Any(), id).
 					Times(1).
@@ -57,11 +38,6 @@ func TestDeleteShorten(t *testing.T) {
 			name:   "Should pass when there are no errors in database operations which are get and delete a shorten data",
 			sample: 12,
 			buildStubs: func(s *mockdb.MockSNS, id int64) {
-				s.EXPECT().
-					GetShorten(gomock.Any(), id).
-					Times(1).
-					Return(database.Shorten{ID: 12}, nil)
-
 				s.EXPECT().
 					DeleteShorten(gomock.Any(), id).
 					Times(1).
@@ -88,7 +64,6 @@ func TestDeleteShorten(t *testing.T) {
 			assert.Equal(t, tc.expectCode, res.StatusCode)
 			var r JsonResponse
 			_ = json.NewDecoder(res.Body).Decode(&r)
-			fmt.Println(r.Msg)
 			assert.Contains(t, r.Msg, tc.expectMsg)
 		})
 	}
