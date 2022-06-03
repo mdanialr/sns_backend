@@ -63,7 +63,7 @@ func UpdateShorten(db database.SNS) func(*fiber.Ctx) error {
 			Time:  time.Now(),
 			Valid: true,
 		}
-		data.ID = oldSh.ID
+		data.ID = int64(id)
 		data.Url = payload.Url
 		data.Target = payload.Target
 		data.Permanent = payload.Permanent
