@@ -7,9 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/helmet/v2"
-	api "github.com/mdanialr/sns_backend/internal/api/v1/shorten"
 	database "github.com/mdanialr/sns_backend/internal/database/sql"
-	"github.com/mdanialr/sns_backend/internal/middleware"
 	"github.com/mdanialr/sns_backend/internal/service"
 )
 
@@ -34,31 +32,9 @@ func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *databas
 	apiRoute := app.Group("/api")
 
 	v1 := apiRoute.Group("/v1")
+
 	sh := v1.Group("/shorten")
-	sh.Post("/",
-		middleware.CreateShortenValidation,
-		api.CreateShorten(db),
-	)
-	sh.Get("/",
-		api.ListShorten(db),
-	)
-	sh.Get("/:id",
-		api.GetShortenDetail(db),
-	)
-	sh.Patch("/:id",
-		middleware.IsIdExistsValidation(db),
-		middleware.CreateShortenValidation,
-		api.UpdateShorten(db),
-	)
-	sh.Put("/:id",
-		middleware.IsIdExistsValidation(db),
-		middleware.CreateShortenValidation,
-		api.UpdateShorten(db),
-	)
-	sh.Delete("/:id",
-		middleware.IsIdExistsValidation(db),
-		api.DeleteShorten(db),
-	)
+	ShortenRoutes(sh, db)
 
 	// Custom middleware AFTER endpoints
 	//app.Use(api.DefaultRouteNotFound)
