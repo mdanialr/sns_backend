@@ -25,15 +25,15 @@ func TestListShorten(t *testing.T) {
 			Url:       "go",
 			Target:    "https://go.dev",
 			Permanent: true,
-			CreatedAt: sql.NullTime{Time: time.Now(), Valid: true},
-			UpdatedAt: sql.NullTime{Time: time.Now(), Valid: true},
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
 		},
 		database.Shorten{
 			ID:        2,
 			Url:       "dart",
 			Target:    "https://pub.dev",
-			CreatedAt: sql.NullTime{Time: time.Now(), Valid: true},
-			UpdatedAt: sql.NullTime{Time: time.Now(), Valid: true},
+			CreatedAt: time.Now(),
+			UpdatedAt: time.Now(),
 		},
 	}
 
@@ -63,8 +63,8 @@ func TestListShorten(t *testing.T) {
 					assert.Equal(t, s.Url, ss.Url)
 					assert.Equal(t, s.Target, ss.Target)
 					assert.Equal(t, s.Permanent, ss.Permanent)
-					assert.WithinDuration(t, s.CreatedAt.Time, ss.CreatedAt.Time, 0)
-					assert.WithinDuration(t, s.UpdatedAt.Time, ss.UpdatedAt.Time, 0)
+					assert.WithinDuration(t, s.CreatedAt, ss.CreatedAt, 0)
+					assert.WithinDuration(t, s.UpdatedAt, ss.UpdatedAt, 0)
 				}
 			}
 		}

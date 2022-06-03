@@ -5,8 +5,8 @@ CREATE TABLE "shorten" (
   "url" varchar NOT NULL,
   "target" varchar NOT NULL,
   "permanent" boolean DEFAULT false NOT NULL,
-  "created_at" timestamptz DEFAULT (now()),
-  "updated_at" timestamptz DEFAULT (now())
+  "created_at" timestamptz DEFAULT (now()) NOT NULL,
+  "updated_at" timestamptz DEFAULT (now()) NOT NULL
 );
 
 CREATE TABLE "send" (
@@ -15,8 +15,8 @@ CREATE TABLE "send" (
   "file" varchar NOT NULL,
   "size" varchar NOT NULL,
   "permanent" boolean DEFAULT false NOT NULL,
-  "created_at" timestamptz DEFAULT (now()),
-  "updated_at" timestamptz DEFAULT (now())
+  "created_at" timestamptz DEFAULT (now()) NOT NULL,
+  "updated_at" timestamptz DEFAULT (now()) NOT NULL
 );
 
 COMMIT;
