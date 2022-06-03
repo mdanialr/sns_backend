@@ -5,24 +5,24 @@
 package database
 
 import (
-	"database/sql"
+	"time"
 )
 
 type Send struct {
-	ID        int64        `json:"id"`
-	Url       string       `json:"url"`
-	File      string       `json:"file"`
-	Size      string       `json:"size"`
-	Permanent bool         `json:"permanent"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
+	ID        int64     `json:"id"`
+	Url       string    `json:"url"`
+	File      string    `json:"file"`
+	Size      string    `json:"size"`
+	Permanent bool      `json:"permanent"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 type Shorten struct {
-	ID        int64        `json:"id"`
-	Url       string       `json:"url"`
-	Target    string       `json:"target"`
-	Permanent bool         `json:"permanent"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
+	ID        int64     `json:"id"`
+	Url       string    `json:"url"`
+	Target    string    `json:"target"`
+	Permanent bool      `json:"permanent"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }

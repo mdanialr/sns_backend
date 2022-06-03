@@ -18,14 +18,13 @@ import (
 )
 
 func TestUpdateShorten(t *testing.T) {
-	sqlNullTime := sql.NullTime{Time: time.Now(), Valid: true}
 	shortenInDatabase := database.Shorten{
 		ID:        11,
 		Url:       "go",
 		Target:    "https://pub.dev",
 		Permanent: false,
-		UpdatedAt: sqlNullTime,
-		CreatedAt: sqlNullTime,
+		UpdatedAt: time.Now(),
+		CreatedAt: time.Now(),
 	}
 	newShorten := database.UpdateShortenParams{
 		ID:        11,
