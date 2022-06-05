@@ -128,32 +128,32 @@ func TestConfig_SanitizeEnv(t *testing.T) {
 	}
 }
 
-func TestConfig_SanitizeLog(t *testing.T) {
+func TestConfig_SanitizeDir(t *testing.T) {
 	testCases := []struct {
 		name   string
 		sample Config
 		expect Config
 	}{
 		{
-			name:   "Should has leading slash in LogDir",
-			sample: Config{LogDir: "path/to/log/"},
-			expect: Config{LogDir: "/path/to/log/"},
+			name:   "Should has leading slash in LogDir and UploadDir",
+			sample: Config{LogDir: "path/to/log/", UploadDir: "path/to/log/"},
+			expect: Config{LogDir: "/path/to/log/", UploadDir: "/path/to/log/"},
 		},
 		{
-			name:   "Should has trailing slash in LogDir",
-			sample: Config{LogDir: "/path/to/log"},
-			expect: Config{LogDir: "/path/to/log/"},
+			name:   "Should has trailing slash in LogDir and UploadDir",
+			sample: Config{LogDir: "/path/to/log", UploadDir: "/path/to/log"},
+			expect: Config{LogDir: "/path/to/log/", UploadDir: "/path/to/log/"},
 		},
 		{
-			name:   "Should has leading and trailing slash in LogDir",
-			sample: Config{LogDir: "path/to/log"},
-			expect: Config{LogDir: "/path/to/log/"},
+			name:   "Should has leading and trailing slash in LogDir and UploadDir",
+			sample: Config{LogDir: "path/to/log", UploadDir: "path/to/log"},
+			expect: Config{LogDir: "/path/to/log/", UploadDir: "/path/to/log/"},
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			tc.sample.SanitizeLog()
+			tc.sample.SanitizeDir()
 			assert.Equal(t, tc.expect, tc.sample)
 		})
 	}

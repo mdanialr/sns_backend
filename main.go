@@ -23,6 +23,7 @@ func main() {
 	viper.SetDefault("host", "127.0.0.1")
 	viper.SetDefault("port", "7575")
 	viper.SetDefault("log", "/tmp/")
+	viper.SetDefault("upload", "/tmp/")
 
 	appConfig, err := service.NewConfig("app", ".")
 	if err != nil {
@@ -66,7 +67,7 @@ func main() {
 // setup prepare every necessary things before starting this app.
 func setup(conf *service.Config) (*fiber.App, error) {
 	conf.SanitizeEnv()
-	conf.SanitizeLog()
+	conf.SanitizeDir()
 
 	// init internal logging
 	if err := logger.InitLogger(conf); err != nil {
