@@ -36,6 +36,9 @@ func SetupRoutes(app *fiber.App, conf *service.Config, fl io.Writer, db *databas
 	sh := v1.Group("/shorten")
 	ShortenRoutes(sh, db)
 
+	sn := v1.Group("/send")
+	SendRoutes(sn, conf, db)
+
 	// Custom middleware AFTER endpoints
 	//app.Use(api.DefaultRouteNotFound)
 }
