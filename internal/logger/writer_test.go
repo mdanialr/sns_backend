@@ -27,7 +27,7 @@ func TestInitLogger(t *testing.T) {
 
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			tt.sample.SanitizeLog()
+			tt.sample.SanitizeDir()
 
 			switch tt.wantErr {
 			case false:
