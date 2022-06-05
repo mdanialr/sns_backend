@@ -81,6 +81,7 @@ func setup(conf *service.Config) (*fiber.App, error) {
 	}
 
 	app := fiber.New(fiber.Config{
+		BodyLimit:             50 * 1024 * 1024,
 		DisableStartupMessage: conf.EnvIsProd,
 		ProxyHeader:           proxyHeader,
 		JSONDecoder:           sonic.Unmarshal,
