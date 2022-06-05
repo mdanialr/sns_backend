@@ -7,7 +7,7 @@ package database
 
 import (
 	"context"
-	"database/sql"
+	"time"
 )
 
 const createSend = `-- name: CreateSend :one
@@ -143,12 +143,12 @@ RETURNING id, url, file, size, permanent, created_at, updated_at
 `
 
 type UpdateSendParams struct {
-	ID        int64        `json:"id"`
-	Url       string       `json:"url"`
-	File      string       `json:"file"`
-	Size      string       `json:"size"`
-	Permanent bool         `json:"permanent"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
+	ID        int64     `json:"id"`
+	Url       string    `json:"url"`
+	File      string    `json:"file"`
+	Size      string    `json:"size"`
+	Permanent bool      `json:"permanent"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func (q *Queries) UpdateSend(ctx context.Context, arg UpdateSendParams) (Send, error) {
