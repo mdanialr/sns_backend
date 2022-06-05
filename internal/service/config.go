@@ -15,6 +15,7 @@ type Config struct {
 	Host      string     `mapstructure:"host"`
 	PortNum   string     `mapstructure:"port"`
 	LogDir    string     `mapstructure:"log"`
+	UploadDir string     `mapstructure:"upload"`
 	DB        DBPostgres `mapstructure:"db"`
 }
 
@@ -48,12 +49,18 @@ func (c *Config) SanitizeEnv() {
 	}
 }
 
-// SanitizeLog make sure LogDir has leading and trailing slash, so it can be safely used in another place.
-func (c *Config) SanitizeLog() {
+// SanitizeDir make sure LogDir & UploadDir has leading and trailing slash, so it can be safely used in another place.
+func (c *Config) SanitizeDir() {
 	if !strings.HasPrefix(c.LogDir, "/") {
 		c.LogDir = "/" + c.LogDir
 	}
 	if !strings.HasSuffix(c.LogDir, "/") {
 		c.LogDir += "/"
+	}
+	if !strings.HasPrefix(c.UploadDir, "/") {
+		c.UploadDir = "/" + c.UploadDir
+	}
+	if !strings.HasSuffix(c.UploadDir, "/") {
+		c.UploadDir += "/"
 	}
 }

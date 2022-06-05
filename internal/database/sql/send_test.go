@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"database/sql"
 	"testing"
 	"time"
 
@@ -173,7 +172,7 @@ func TestQueries_UpdateSend(t *testing.T) {
 				File:      listOfSendInstances[0].File,
 				Size:      listOfSendInstances[0].Size,
 				Permanent: listOfSendInstances[0].Permanent,
-				UpdatedAt: sql.NullTime{Time: time.Now(), Valid: true},
+				UpdatedAt: time.Now(),
 			},
 		},
 		{
@@ -184,7 +183,7 @@ func TestQueries_UpdateSend(t *testing.T) {
 				File:      "newFile.rar",
 				Size:      "11Mb",
 				Permanent: listOfSendInstances[1].Permanent,
-				UpdatedAt: sql.NullTime{Time: time.Now(), Valid: true},
+				UpdatedAt: time.Now(),
 			},
 		},
 	}
