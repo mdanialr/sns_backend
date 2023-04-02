@@ -1,0 +1,19 @@
+server:
+  host: 127.0.0.1
+  port: 6868
+  debug: true # if true will print all log to stdout otherwise will use 'log' option below
+cred:
+  secret: TOPSECRET # you can get this secret by run the cli with `-gen` args
+  type: totp # this should be filled with either 'totp' or 'hotp', totp is recommended since this app cannot send hotp code via email yet
+jwt:
+  secret: V3rYlongRand0m5tr1Ng # random string that will be used to signing and verify jwt token
+  duration: 1440 # duration of the jwt token validity in minutes.
+log:
+  type: file # currently only support file log
+  dir: /my/full/path/to/log # full path where the log 'file' will be written
+db:
+  host: # database host
+  port: 5432 # database port
+  name: postgres # database name
+  user: postgres # username that will be used to connect to the database
+  pass: postgres # password that belong to the user
