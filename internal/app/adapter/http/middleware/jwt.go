@@ -35,6 +35,6 @@ func validateUser(v *viper.Viper) fiber.Handler {
 		if cl["user"] != v.GetString("jwt.secret") {
 			return resp.Error(c, resp.WithErrMsg("unexpected user was found in jwt token"))
 		}
-		return nil
+		return c.Next()
 	}
 }
