@@ -12,7 +12,7 @@ type ShortenResponse struct {
 	ID          uint       `json:"id,omitempty"`
 	Url         string     `json:"url,omitempty"`
 	Shorten     *string    `json:"shorten,omitempty"`
-	IsPermanent *bool      `json:"is_permanent,omitempty"`
+	IsPermanent *bool      `json:"permanent,omitempty"`
 	CreatedAt   *time.Time `json:"created_at,omitempty"`
 	UpdatedAt   *time.Time `json:"updated_at,omitempty"`
 }

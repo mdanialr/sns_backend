@@ -1,6 +1,7 @@
 package requests
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
@@ -10,9 +11,9 @@ import (
 // Shorten standard request object that may be used to parse request in
 // /shorten endpoint.
 type Shorten struct {
-	Url         string `json:"url,omitempty" validate:"required"`
-	Shorten     string `json:"shorten,omitempty" validate:"required,url"`
-	IsPermanent bool   `json:"is_permanent,omitempty" validate:"required,boolean"`
+	Url       string `json:"url" validate:"required"`
+	Shorten   string `json:"shorten" validate:"required,url"`
+	Permanent string `json:"permanent" validate:"required,boolean"`
 
 	paginate.M
 	// Order the field name to query Order. Default to id.
@@ -20,6 +21,12 @@ type Shorten struct {
 	// Sort to query Order. Should be filled with either asc or desc. Default
 	// to asc.
 	Sort string `json:"-" query:"sort"`
+}
+
+// PermanentToBool convert Permanent field to bool.
+func (s *Shorten) PermanentToBool() bool {
+	b, _ := strconv.ParseBool(s.Permanent)
+	return b
 }
 
 // SetQuery do setup Order and Sort.
@@ -48,6 +55,43 @@ func (s *Shorten) sanitizeQuerySort() string {
 // Validate validation rules for Shorten that should be parsed from request
 // body.
 func (s *Shorten) Validate() validator.ValidationErrors {
+	if err := validate.Struct(s); err != nil {
+		return err.(validator.ValidationErrors)
+	}
+	return nil
+}
+
+// ShortenUpdate standard request object that may be used to parse request in
+// /shorten/update endpoint.
+type ShortenUpdate struct {
+	ID        uint    `json:"id" validate:"required,numeric"`
+	Url       string  `json:"url" validate:"required"`
+	Shorten   *string `json:"shorten" validate:"required,url"`
+	Permanent string  `json:"permanent" validate:"required,boolean"`
+}
+
+// Validate validation rules for ShortenUpdate.
+func (s *ShortenUpdate) Validate() validator.ValidationErrors {
+	if err := validate.Struct(s); err != nil {
+		return err.(validator.ValidationErrors)
+	}
+	return nil
+}
+
+// PermanentToBool convert Permanent field to bool.
+func (s *ShortenUpdate) PermanentToBool() bool {
+	b, _ := strconv.ParseBool(s.Permanent)
+	return b
+}
+
+// ShortenDelete standard request object that may be used to parse request in
+// /shorten/delete endpoint.
+type ShortenDelete struct {
+	ID uint `json:"id" validate:"required,numeric"`
+}
+
+// Validate validation rules for ShortenDelete.
+func (s *ShortenDelete) Validate() validator.ValidationErrors {
 	if err := validate.Struct(s); err != nil {
 		return err.(validator.ValidationErrors)
 	}

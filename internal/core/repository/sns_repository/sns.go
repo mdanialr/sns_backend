@@ -47,13 +47,29 @@ func (s *snsRepo) GetByID(ctx context.Context, id uint, opts ...r.IOptions) (*do
 	return &sns, q.First(&sns).Error
 }
 
+func (s *snsRepo) GetByUrl(ctx context.Context, url string, opts ...r.IOptions) (*domain.SNS, error) {
+	q := s.db.WithContext(ctx)
+
+	for _, opt := range opts {
+		q = opt.Set(q)
+	}
+
+	sns := domain.SNS{Url: url}
+	return &sns, q.Where(&sns, "Url").First(&sns).Error
+}
+
 func (s *snsRepo) Create(ctx context.Context, sns *domain.SNS) (*domain.SNS, error) {
 	return sns, s.db.WithContext(ctx).Create(&sns).Error
 }
 
-func (s *snsRepo) Update(ctx context.Context, sns domain.SNS, opts ...r.IOptions) (*domain.SNS, error) {
-	//TODO implement me
-	panic("implement me")
+func (s *snsRepo) Update(ctx context.Context, sns *domain.SNS, opts ...r.IOptions) (*domain.SNS, error) {
+	q := s.db.WithContext(ctx)
+
+	for _, opt := range opts {
+		q = opt.Set(q)
+	}
+
+	return sns, q.Updates(&sns).Error
 }
 
 func (s *snsRepo) DeleteByID(ctx context.Context, id uint) error {

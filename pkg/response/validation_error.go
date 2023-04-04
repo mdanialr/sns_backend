@@ -37,6 +37,10 @@ func errMsgMapping(fe validator.FieldError) string {
 		return "should be equal or less then " + fe.Param()
 	case "min":
 		return "should be equal or more then " + fe.Param()
+	case "url":
+		return "should be a complete url along with the FQDN"
+	case "boolean":
+		return "should be a boolean string"
 	}
 	return fe.Error()
 }
