@@ -9,7 +9,7 @@ import (
 )
 
 // Shorten standard request object that may be used to parse request in
-// /shorten endpoint.
+// /shorten & /shorten/create endpoints.
 type Shorten struct {
 	Url       string `json:"url" validate:"required"`
 	Shorten   string `json:"shorten" validate:"required,url"`

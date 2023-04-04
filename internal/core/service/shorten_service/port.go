@@ -16,7 +16,8 @@ type IService interface {
 	// newly created Shorten back along with error if any.
 	Create(context.Context, *req.Shorten) (*res.ShortenResponse, error)
 	// Update do update an existing Shorten instance based on ID in given
-	// request.
+	// request. Return the recently updated Shorten back along with error if
+	// any.
 	Update(context.Context, *req.ShortenUpdate) (*res.ShortenResponse, error)
 	// Delete remove an SNS data from DB using given id as the condition.
 	Delete(context.Context, *req.ShortenDelete) error
