@@ -5,7 +5,9 @@ import (
 	"github.com/mdanialr/sns_backend/internal/app/adapter/http/auth_handler"
 	"github.com/mdanialr/sns_backend/internal/app/adapter/http/shorten_handler"
 	"github.com/mdanialr/sns_backend/internal/core/repository/otp_repository"
+	"github.com/mdanialr/sns_backend/internal/core/repository/sns_repository"
 	"github.com/mdanialr/sns_backend/internal/core/service/otp_service"
+	"github.com/mdanialr/sns_backend/internal/core/service/shorten_service"
 	"github.com/mdanialr/sns_backend/pkg/logger"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
@@ -31,11 +33,13 @@ func (h *HttpHandlers) SetupRouter() {
 
 	// init repositories
 	otpRepo := otp_repository.NewOTPRepository(h.DB)
+	snsRepo := sns_repository.NewSNSRepository(h.DB)
 
 	// init services
 	otpSvc := otp_service.NewOTPService(h.Config, h.Log, otpRepo)
+	snsSvc := shorten_service.NewSNSService(h.Log, snsRepo)
 
 	// init handlers
-	auth_handler.NewAuthHandler(apiV1, otpSvc)         // /auth/*
-	shorten_handler.NewShortenHandler(apiV1, h.Config) // /shorten/*
+	auth_handler.NewAuthHandler(apiV1, otpSvc)                 // /auth/*
+	shorten_handler.NewShortenHandler(apiV1, h.Config, snsSvc) // /shorten/*
 }
