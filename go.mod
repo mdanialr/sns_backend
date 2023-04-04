@@ -3,7 +3,7 @@ module github.com/mdanialr/sns_backend
 go 1.20
 
 require (
-	github.com/bytedance/sonic v1.8.6
+	github.com/bytedance/sonic v1.8.7
 	github.com/go-playground/validator/v10 v10.12.0
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/gofiber/helmet/v2 v2.2.25
