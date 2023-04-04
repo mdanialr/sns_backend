@@ -27,6 +27,7 @@ func Run(isSeeder bool) {
 
 	db.AutoMigrate(
 		&domain.RegisteredOTP{},
+		&domain.SNS{},
 	)
 	if isSeeder {
 		seeder.Run(db)

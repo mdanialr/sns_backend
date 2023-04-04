@@ -26,4 +26,8 @@ var seeders = []struct {
 		Name: "RegisteredOTP",
 		Run:  registeredOTP,
 	},
+	{
+		Name: "SNSShorten",
+		Run:  snsShorten,
+	},
 }
