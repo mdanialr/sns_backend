@@ -2,7 +2,6 @@ package server
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -54,12 +53,14 @@ func Http() {
 	db, err := postgresql.NewGorm(v, gormLog)
 	if err != nil {
 		appWr.Err("failed to init gorm with postgresql as the DB:", err)
+		os.Exit(1)
 		return
 	}
 	// get the sql db
 	sqlDB, err := db.DB()
 	if err != nil {
 		appWr.Err("failed to get the DB instance from gorm:", err)
+		os.Exit(1)
 		return
 	}
 	defer sqlDB.Close()
@@ -116,11 +117,11 @@ func Http() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	// blocks main thread until an interrupt is received
 	<-c
-	log.Println("gracefully shutting down...")
+	appWr.Inf("gracefully shutting down...")
 	fiberApp.Shutdown()
-	fmt.Println("Running cleanup tasks...")
+	appWr.Inf("running cleanup tasks...")
 	sqlDB.Close()
-	fmt.Println("services was successful shutdown.")
+	appWr.Inf("services was successful shutdown.")
 }
 
 func setupLogger(v *viper.Viper) (*os.File, *os.File) {
