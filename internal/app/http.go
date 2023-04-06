@@ -3,10 +3,12 @@ package app
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/mdanialr/sns_backend/internal/app/adapter/http/auth_handler"
+	"github.com/mdanialr/sns_backend/internal/app/adapter/http/send_handler"
 	"github.com/mdanialr/sns_backend/internal/app/adapter/http/shorten_handler"
 	"github.com/mdanialr/sns_backend/internal/core/repository/otp_repository"
 	"github.com/mdanialr/sns_backend/internal/core/repository/sns_repository"
 	"github.com/mdanialr/sns_backend/internal/core/service/otp_service"
+	"github.com/mdanialr/sns_backend/internal/core/service/send_service"
 	"github.com/mdanialr/sns_backend/internal/core/service/shorten_service"
 	"github.com/mdanialr/sns_backend/pkg/logger"
 	"github.com/mdanialr/sns_backend/pkg/storage"
@@ -40,8 +42,10 @@ func (h *HttpHandlers) SetupRouter() {
 	// init services
 	otpSvc := otp_service.New(h.Config, h.Log, otpRepo)
 	snsSvc := shorten_service.New(h.Log, snsRepo)
+	sendSvc := send_service.New(h.Log, h.Storage, h.Config, snsRepo)
 
 	// init handlers
 	auth_handler.New(apiV1, otpSvc)              // /auth/*
 	shorten_handler.New(apiV1, h.Config, snsSvc) // /shorten/*
+	send_handler.New(apiV1, h.Config, sendSvc)   // /send/*
 }

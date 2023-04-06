@@ -24,6 +24,12 @@ func (s *snsRepo) FindShorten(ctx context.Context, opts ...r.IOptions) ([]*domai
 	return s.findSNS(ctx, opts...)
 }
 
+func (s *snsRepo) FindSend(ctx context.Context, opts ...r.IOptions) ([]*domain.SNS, error) {
+	// prepend condition to first element
+	opts = append([]r.IOptions{r.Cons("shorten IS NULL")}, opts...)
+	return s.findSNS(ctx, opts...)
+}
+
 // findSNS general method that may be used to retrieve all domain.SNS data.
 func (s *snsRepo) findSNS(ctx context.Context, opts ...r.IOptions) ([]*domain.SNS, error) {
 	q := s.db.WithContext(ctx).Model(&domain.SNS{})

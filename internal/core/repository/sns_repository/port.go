@@ -12,6 +12,8 @@ import (
 type IRepository interface {
 	// FindShorten retrieve all shorten data.
 	FindShorten(ctx context.Context, opts ...r.IOptions) ([]*domain.SNS, error)
+	// FindSend retrieve all send data.
+	FindSend(ctx context.Context, opts ...r.IOptions) ([]*domain.SNS, error)
 	// GetByID retrieve a domain.SNS by given id and optionally select which
 	// columns to be retrieved. Returned domain.SNS should be nil even if there
 	// is any error.
