@@ -20,6 +20,7 @@ import (
 	"github.com/mdanialr/sns_backend/internal/app"
 	conf "github.com/mdanialr/sns_backend/pkg/config"
 	gormLogger "github.com/mdanialr/sns_backend/pkg/gorm"
+	"github.com/mdanialr/sns_backend/pkg/helper"
 	"github.com/mdanialr/sns_backend/pkg/logger"
 	"github.com/mdanialr/sns_backend/pkg/postgresql"
 	"github.com/spf13/viper"
@@ -69,6 +70,7 @@ func Http() {
 		JSONEncoder:           sonic.Marshal,
 		JSONDecoder:           sonic.Unmarshal,
 		DisableStartupMessage: !v.GetBool("server.debug"),
+		ErrorHandler:          helper.DefaultHTTPErrorHandler,
 	})
 	// ini fiber log middleware with custom config
 	fiberLog := fLog.New(fLog.Config{
