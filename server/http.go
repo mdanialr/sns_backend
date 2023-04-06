@@ -65,7 +65,7 @@ func Http() {
 	// init fiber
 	fiberApp := fiber.New(fiber.Config{
 		IdleTimeout:           5 * time.Second,
-		BodyLimit:             50 * 1024 * 1024, // 50MB
+		BodyLimit:             v.GetInt("server.limit") * 1024 * 1024,
 		RequestMethods:        []string{fiber.MethodHead, fiber.MethodGet, fiber.MethodPost},
 		JSONEncoder:           sonic.Marshal,
 		JSONDecoder:           sonic.Unmarshal,

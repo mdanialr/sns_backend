@@ -2,6 +2,7 @@ server:
   host: 127.0.0.1
   port: 6868
   debug: true # if true will print all log to stdout otherwise will use 'log' option below
+  limit: 50 # request body size limit that will be processed in MB
 cred:
   secret: TOPSECRET # you can get this secret by run the cli with `-gen` args
   type: totp # this should be filled with either 'totp' or 'hotp', totp is recommended since this app cannot send hotp code via email yet
