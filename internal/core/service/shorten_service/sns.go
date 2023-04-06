@@ -97,7 +97,16 @@ func (s *shService) Update(ctx context.Context, req *req.ShortenUpdate) (*res.Sh
 }
 
 func (s *shService) Delete(ctx context.Context, req *req.ShortenDelete) error {
-	if err := s.repo.DeleteByID(ctx, req.ID); err != nil {
+	// check first if given id is exists in DB
+	sh, err := s.repo.GetByID(ctx, req.ID, repo.Cols("id"))
+	if err != nil {
+		errMsg := "data with id " + strconv.Itoa(int(req.ID)) + " was not found"
+		s.log.Err(errMsg+":", err)
+		return errors.New(errMsg)
+	}
+
+	// then delete it using the id from query
+	if err = s.repo.DeleteByID(ctx, sh.ID); err != nil {
 		errMsg := "failed to delete SNS data with id " + strconv.Itoa(int(req.ID))
 		s.log.Err(errMsg+":", err)
 		return errors.New(errMsg)
