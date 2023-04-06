@@ -18,9 +18,9 @@ type otpSvc struct {
 	repo otp_repository.IRepository
 }
 
-// NewOTPService return new service that can be used to exchange otp code with
-// a JWT that has validity based on the config.
-func NewOTPService(v *viper.Viper, l logger.Writer, repo otp_repository.IRepository) IService {
+// New return new service that can be used to exchange otp code with a JWT that
+// has validity based on the config.
+func New(v *viper.Viper, l logger.Writer, repo otp_repository.IRepository) IService {
 	return &otpSvc{v, l, repo}
 }
 

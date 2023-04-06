@@ -16,8 +16,8 @@ type shortenHandler struct {
 	shSvc shorten_service.IService
 }
 
-// NewShortenHandler init all endpoints within `/shorten`.
-func NewShortenHandler(route fiber.Router, v *viper.Viper, svc shorten_service.IService) {
+// New init all endpoints within `/shorten`.
+func New(route fiber.Router, v *viper.Viper, svc shorten_service.IService) {
 	sh := &shortenHandler{v, route, svc}
 
 	api := sh.route.Group("/shorten", md.JWT(sh.v))

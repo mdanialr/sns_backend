@@ -11,9 +11,9 @@ type otpRepo struct {
 	db *gorm.DB
 }
 
-// NewOTPRepository return implementation that can be used to interact with
-// object domain.RegisteredOTP.
-func NewOTPRepository(db *gorm.DB) IRepository {
+// New return implementation that can be used to interact with object
+// domain.RegisteredOTP.
+func New(db *gorm.DB) IRepository {
 	return &otpRepo{db}
 }
 

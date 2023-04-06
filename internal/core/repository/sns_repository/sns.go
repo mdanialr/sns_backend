@@ -12,9 +12,9 @@ type snsRepo struct {
 	db *gorm.DB
 }
 
-// NewSNSRepository return implementation that can be used to interact with
-// object domain.SNS.
-func NewSNSRepository(db *gorm.DB) IRepository {
+// New return implementation that can be used to interact with object
+// domain.SNS.
+func New(db *gorm.DB) IRepository {
 	return &snsRepo{db}
 }
 

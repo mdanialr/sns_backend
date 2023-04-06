@@ -19,9 +19,8 @@ type shService struct {
 	repo sns_repository.IRepository
 }
 
-// NewSNSService return implementation of core business logic for Shorten
-// service layer.
-func NewSNSService(l logger.Writer, repo sns_repository.IRepository) IService {
+// New return implementation of core business logic for Shorten service layer.
+func New(l logger.Writer, repo sns_repository.IRepository) IService {
 	return &shService{l, repo}
 }
 

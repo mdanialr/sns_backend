@@ -32,14 +32,14 @@ func (h *HttpHandlers) SetupRouter() {
 	apiV1 := h.R.Group("/v1")
 
 	// init repositories
-	otpRepo := otp_repository.NewOTPRepository(h.DB)
-	snsRepo := sns_repository.NewSNSRepository(h.DB)
+	otpRepo := otp_repository.New(h.DB)
+	snsRepo := sns_repository.New(h.DB)
 
 	// init services
-	otpSvc := otp_service.NewOTPService(h.Config, h.Log, otpRepo)
-	snsSvc := shorten_service.NewSNSService(h.Log, snsRepo)
+	otpSvc := otp_service.New(h.Config, h.Log, otpRepo)
+	snsSvc := shorten_service.New(h.Log, snsRepo)
 
 	// init handlers
-	auth_handler.NewAuthHandler(apiV1, otpSvc)                 // /auth/*
-	shorten_handler.NewShortenHandler(apiV1, h.Config, snsSvc) // /shorten/*
+	auth_handler.New(apiV1, otpSvc)              // /auth/*
+	shorten_handler.New(apiV1, h.Config, snsSvc) // /shorten/*
 }

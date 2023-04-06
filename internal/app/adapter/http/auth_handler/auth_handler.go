@@ -13,8 +13,8 @@ type authHandler struct {
 	otpSvc otp_service.IService
 }
 
-// NewAuthHandler init all endpoints within `/auth`.
-func NewAuthHandler(route fiber.Router, otpSvc otp_service.IService) {
+// New init all endpoints within `/auth`.
+func New(route fiber.Router, otpSvc otp_service.IService) {
 	otpH := &authHandler{route, otpSvc}
 
 	api := otpH.route.Group("/auth")
