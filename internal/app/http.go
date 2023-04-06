@@ -9,16 +9,18 @@ import (
 	"github.com/mdanialr/sns_backend/internal/core/service/otp_service"
 	"github.com/mdanialr/sns_backend/internal/core/service/shorten_service"
 	"github.com/mdanialr/sns_backend/pkg/logger"
+	"github.com/mdanialr/sns_backend/pkg/storage"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
 // HttpHandlers handlers that use HTTP as the controller/handler.
 type HttpHandlers struct {
-	R      fiber.Router
-	DB     *gorm.DB
-	Config *viper.Viper
-	Log    logger.Writer
+	R       fiber.Router
+	DB      *gorm.DB
+	Config  *viper.Viper
+	Log     logger.Writer
+	Storage storage.IStorage
 }
 
 func (h *HttpHandlers) SetupRouter() {

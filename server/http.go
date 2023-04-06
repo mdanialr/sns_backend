@@ -23,6 +23,7 @@ import (
 	"github.com/mdanialr/sns_backend/pkg/helper"
 	"github.com/mdanialr/sns_backend/pkg/logger"
 	"github.com/mdanialr/sns_backend/pkg/postgresql"
+	"github.com/mdanialr/sns_backend/pkg/storage"
 	"github.com/spf13/viper"
 	gLog "gorm.io/gorm/logger"
 )
@@ -62,6 +63,16 @@ func Http() {
 		return
 	}
 	defer sqlDB.Close()
+	// init storage
+	var st storage.IStorage
+	switch v.GetString("storage.driver") {
+	case "file":
+		st = storage.NewFile(appWr)
+	default:
+		appWr.Err("unsupported storage driver. currently support [file]")
+		os.Exit(1)
+		return
+	}
 	// init fiber
 	fiberApp := fiber.New(fiber.Config{
 		IdleTimeout:           5 * time.Second,
@@ -86,10 +97,11 @@ func Http() {
 	)
 	// init http handlers
 	h := app.HttpHandlers{
-		R:      fiberApp.Group("/api"), // add prefix /api to route stack
-		DB:     db,
-		Config: v,
-		Log:    appWr,
+		R:       fiberApp.Group("/api"), // add prefix /api to route stack
+		DB:      db,
+		Config:  v,
+		Log:     appWr,
+		Storage: st,
 	}
 	h.SetupRouter()
 	// listen from a different goroutine
