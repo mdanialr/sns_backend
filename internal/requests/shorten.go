@@ -21,6 +21,8 @@ type Shorten struct {
 	// Sort to query Order. Should be filled with either asc or desc. Default
 	// to asc.
 	Sort string `json:"-" query:"sort"`
+	// Search do search for url from given string.
+	Search string `json:"-" query:"search"`
 }
 
 // PermanentToBool convert Permanent field to bool.

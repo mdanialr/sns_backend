@@ -25,7 +25,16 @@ func New(l logger.Writer, repo sns_repository.IRepository) IService {
 }
 
 func (s *shService) Index(ctx context.Context, sh *req.Shorten) (*res.ShortenIndexResponse, error) {
-	shortens, err := s.repo.FindShorten(ctx, repo.Paginate(&sh.M), repo.Order(sh.Order+" "+sh.Sort))
+	// set up repo options
+	opts := []repo.IOptions{repo.Paginate(&sh.M), repo.Order(sh.Order + " " + sh.Sort)}
+	// additionally add search option
+	if sh.Search != "" {
+		q := "url LIKE '%" + sh.Search + "%'"
+		opts = append(opts, repo.Cons(q))
+	}
+
+	// query Shorten data using options above
+	shortens, err := s.repo.FindShorten(ctx, opts...)
 	if err != nil {
 		errMsg := "failed to retrieve all shorten data"
 		s.log.Err(errMsg+":", err)

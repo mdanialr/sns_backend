@@ -33,7 +33,16 @@ func New(l logger.Writer, s storage.IStorage, v *viper.Viper, r sns_repository.I
 }
 
 func (s *sendSvc) Index(ctx context.Context, sn *req.Send) (*res.SendIndexResponse, error) {
-	shortens, err := s.repo.FindSend(ctx, repo.Paginate(&sn.M), repo.Order(sn.Order+" "+sn.Sort))
+	// set up repo options
+	opts := []repo.IOptions{repo.Paginate(&sn.M), repo.Order(sn.Order + " " + sn.Sort)}
+	// additionally add search option
+	if sn.Search != "" {
+		q := "url LIKE '%" + sn.Search + "%'"
+		opts = append(opts, repo.Cons(q))
+	}
+
+	// query Send data using options above
+	shortens, err := s.repo.FindSend(ctx, opts...)
 	if err != nil {
 		errMsg := "failed to retrieve all send data"
 		s.log.Err(errMsg+":", err)
