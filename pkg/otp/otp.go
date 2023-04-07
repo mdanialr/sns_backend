@@ -94,7 +94,7 @@ func newOTP(secret string, counter int) *OTP {
 		issuer:  issuer,
 		account: account,
 		secret:  secret,
-		window:  1,
+		window:  0,
 		counter: counter,
 	}
 }
