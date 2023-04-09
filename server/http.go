@@ -106,9 +106,12 @@ func Http() {
 		Storage: st,
 	}
 	h.SetupRouter()
+	// log the app host and port
+	host := v.GetString("server.host") + ":" + v.GetString("server.port")
+	appWr.Inf("Run app in", host)
 	// listen from a different goroutine
 	go func() {
-		if err := fiberApp.Listen(v.GetString("server.host") + ":" + v.GetString("server.port")); err != nil {
+		if err := fiberApp.Listen(host); err != nil {
 			log.Panicf("failed listen into port %v", err)
 		}
 	}()
