@@ -146,15 +146,8 @@ func setupLogFiber(logDir string) *os.File {
 	logFiber, err := os.Stdout, errors.New("")
 	// log file for internal app
 	targetLog := logDir + "/app-log"
-	logFiber, err = os.Open(targetLog)
+	logFiber, err = os.OpenFile(targetLog, os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
-		if os.IsNotExist(err) {
-			logFiber, err = os.Create(targetLog)
-			if err != nil {
-				log.Fatalln("failed to create log file for fiber app:", err)
-			}
-			return logFiber
-		}
 		log.Fatalln("failed to open log file for fiber app:", err)
 	}
 	return logFiber
@@ -164,15 +157,8 @@ func setupLog(logDir string) *os.File {
 	logFile, err := os.Stdout, errors.New("")
 	// log file for internal app
 	targetLog := logDir + "/log"
-	logFile, err = os.Open(targetLog)
+	logFile, err = os.OpenFile(targetLog, os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
-		if os.IsNotExist(err) {
-			logFile, err = os.Create(targetLog)
-			if err != nil {
-				log.Fatalln("failed to create log file for internal:", err)
-			}
-			return logFile
-		}
 		log.Fatalln("failed to open log file for internal:", err)
 	}
 	return logFile
@@ -182,15 +168,8 @@ func setupLogGorm(logDir string) *os.File {
 	logGorm, err := os.Stdout, errors.New("")
 	// log file for internal app
 	targetLog := logDir + "/gorm-log"
-	logGorm, err = os.Open(targetLog)
+	logGorm, err = os.OpenFile(targetLog, os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
-		if os.IsNotExist(err) {
-			logGorm, err = os.Create(targetLog)
-			if err != nil {
-				log.Fatalln("failed to create log file for gorm:", err)
-			}
-			return logGorm
-		}
 		log.Fatalln("failed to open log file for gorm:", err)
 	}
 	return logGorm
