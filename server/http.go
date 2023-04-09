@@ -35,7 +35,7 @@ func Http() {
 		log.Fatalln("failed to init config:", err)
 	}
 	// setup logger target based on the config debug state
-	logFile, logGorm := setupLogger(v)
+	logFile, logGorm, logFiber := setupLogger(v)
 	defer logFile.Close()
 	defer logGorm.Close()
 	// init app logger
@@ -86,7 +86,8 @@ func Http() {
 	})
 	// ini fiber log middleware with custom config
 	fiberLog := fLog.New(fLog.Config{
-		Output: logFile,
+		Output:     logFiber,
+		TimeFormat: "02-Jan-06 15:04:05",
 	})
 	// add middlewares
 	fiberApp.Use(
@@ -124,23 +125,73 @@ func Http() {
 	appWr.Inf("services was successful shutdown.")
 }
 
-func setupLogger(v *viper.Viper) (*os.File, *os.File) {
-	logFile, logGorm, err := os.Stdout, os.Stdout, errors.New("")
+// setupLogger return logger target file for internal log, gorm log, and fiber
+// app log
+func setupLogger(v *viper.Viper) (*os.File, *os.File, *os.File) {
+	logFile, logGorm, logFiber := os.Stdout, os.Stdout, os.Stdout
 	if !v.GetBool("server.debug") {
 		logDir := strings.TrimSuffix(v.GetString("log.dir"), "/")
 		// log file for fiber app
-		targetAppLog := logDir + "/app-log"
-		logFile, err = os.Open(targetAppLog)
-		if err != nil {
-			log.Fatalln("failed to open log file for app:", err)
-		}
+		logFiber = setupLogFiber(logDir)
+		// log file for internal app
+		logFile = setupLog(logDir)
 		// log file for gorm
-		targetGormLog := logDir + "/gorm-log"
-		logGorm, err = os.Open(targetGormLog)
-		if err != nil {
-			log.Fatalln("failed to open log file for gorm:", err)
-		}
+		logGorm = setupLogGorm(logDir)
 	}
 
-	return logFile, logGorm
+	return logFile, logGorm, logFiber
+}
+
+func setupLogFiber(logDir string) *os.File {
+	logFiber, err := os.Stdout, errors.New("")
+	// log file for internal app
+	targetLog := logDir + "/app-log"
+	logFiber, err = os.Open(targetLog)
+	if err != nil {
+		if os.IsNotExist(err) {
+			logFiber, err = os.Create(targetLog)
+			if err != nil {
+				log.Fatalln("failed to create log file for fiber app:", err)
+			}
+			return logFiber
+		}
+		log.Fatalln("failed to open log file for fiber app:", err)
+	}
+	return logFiber
+}
+
+func setupLog(logDir string) *os.File {
+	logFile, err := os.Stdout, errors.New("")
+	// log file for internal app
+	targetLog := logDir + "/log"
+	logFile, err = os.Open(targetLog)
+	if err != nil {
+		if os.IsNotExist(err) {
+			logFile, err = os.Create(targetLog)
+			if err != nil {
+				log.Fatalln("failed to create log file for internal:", err)
+			}
+			return logFile
+		}
+		log.Fatalln("failed to open log file for internal:", err)
+	}
+	return logFile
+}
+
+func setupLogGorm(logDir string) *os.File {
+	logGorm, err := os.Stdout, errors.New("")
+	// log file for internal app
+	targetLog := logDir + "/gorm-log"
+	logGorm, err = os.Open(targetLog)
+	if err != nil {
+		if os.IsNotExist(err) {
+			logGorm, err = os.Create(targetLog)
+			if err != nil {
+				log.Fatalln("failed to create log file for gorm:", err)
+			}
+			return logGorm
+		}
+		log.Fatalln("failed to open log file for gorm:", err)
+	}
+	return logGorm
 }
