@@ -12,7 +12,7 @@ import (
 	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
-	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/etag"
 	fLog "github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/helmet/v2"
@@ -84,7 +84,7 @@ func Http() {
 		DisableStartupMessage: !v.GetBool("server.debug"),
 		ErrorHandler:          helper.DefaultHTTPErrorHandler,
 	})
-	// ini fiber log middleware with custom config
+	// init fiber log middleware with custom config
 	fiberLog := fLog.New(fLog.Config{
 		Output:     logFiber,
 		TimeFormat: "02-Jan-06 15:04:05",
@@ -92,9 +92,9 @@ func Http() {
 	// add middlewares
 	fiberApp.Use(
 		fiberLog,
+		etag.New(),
 		recover.New(),
 		compress.New(),
-		cors.New(),
 		helmet.New(),
 	)
 	// init http handlers
