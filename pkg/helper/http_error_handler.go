@@ -27,7 +27,7 @@ func defaultHTTPErrorHandlerMsg(code int) string {
 	case fiber.StatusNotFound:
 		return "Not Found"
 	case fiber.StatusMethodNotAllowed:
-		return "Method is not allowed here!"
+		return "This method is not allowed here!"
 	}
 	return "Something was wrong!"
 }
