@@ -70,7 +70,7 @@ func TestAuthHandler_Login(t *testing.T) {
 		},
 		{
 			name: "Given valid otp 654321 but failed to create jwt token should return error message from service" +
-				"layer dependency and status code Internal Server Error",
+				"layer dependency and status code Bad Request",
 			payload: bytes.NewBufferString(`{"code":"654321"}`),
 			setup: func(svc *mocks.Mockotp_serviceIService) {
 				svc.EXPECT().
@@ -82,7 +82,7 @@ func TestAuthHandler_Login(t *testing.T) {
 					Return("", errors.New("failed to sign token")).
 					Once()
 			},
-			expectCode:     http.StatusInternalServerError,
+			expectCode:     http.StatusBadRequest,
 			expectResponse: `{"status":"FAILED","message":"failed to sign token"}`,
 		},
 		{

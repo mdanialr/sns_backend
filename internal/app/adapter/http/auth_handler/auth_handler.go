@@ -36,7 +36,7 @@ func (a *authHandler) Login(c *fiber.Ctx) error {
 	// get the signed jwt token
 	token, err := a.otpSvc.GetJWT(c.Context())
 	if err != nil {
-		return resp.ErrorCode(c, fiber.StatusInternalServerError, resp.WithErr(err))
+		return resp.Error(c, resp.WithErr(err))
 	}
 	// construct the response
 	tokenResp := map[string]string{
