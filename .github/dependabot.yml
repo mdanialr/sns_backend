@@ -1,8 +1,0 @@
-# Dependabot that will create PR to make sure all dependencies in go.mod up-to-date
-
-version: 2
-updates:
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "weekly"
