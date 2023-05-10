@@ -1,0 +1,27 @@
+with-expecter: True
+case: underscore
+log-level: warn
+disable-version-string: True
+dir: "{{.InterfaceDir}}/mocks"
+outpkg: mocks
+mockname: "Mock{{.PackageName}}{{.InterfaceName}}"
+filename: "mock_{{.PackageName}}.gen.go"
+packages: # explicitly mention all mocked interfaces
+  github.com/mdanialr/sns_backend/internal/core/service/otp_service:
+    interfaces:
+      IService:
+  github.com/mdanialr/sns_backend/internal/core/service/send_service:
+    interfaces:
+      IService:
+  github.com/mdanialr/sns_backend/internal/core/service/shorten_service:
+    interfaces:
+      IService:
+  github.com/mdanialr/sns_backend/pkg/storage:
+    interfaces:
+      IStorage:
+  github.com/mdanialr/sns_backend/internal/core/repository/otp_repository:
+    interfaces:
+      IRepository:
+  github.com/mdanialr/sns_backend/internal/core/repository/sns_repository:
+    interfaces:
+      IRepository:
