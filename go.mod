@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/bytedance/sonic v1.8.8
 	github.com/go-playground/validator/v10 v10.13.0
-	github.com/gofiber/fiber/v2 v2.45.0
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/gofiber/helmet/v2 v2.2.26
 	github.com/gofiber/jwt/v3 v3.3.10
 	github.com/golang-jwt/jwt/v4 v4.5.0
