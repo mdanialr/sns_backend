@@ -58,6 +58,7 @@ func (s *shService) Create(ctx context.Context, req *req.Shorten) (*res.ShortenR
 	// prepare new object to be saved to DB
 	sh := &domain.SNS{
 		Url:         req.Url,
+		Description: req.Description,
 		Shorten:     &req.Shorten,
 		IsPermanent: h.Ptr(req.PermanentToBool()),
 	}
@@ -89,6 +90,7 @@ func (s *shService) Update(ctx context.Context, req *req.ShortenUpdate) (*res.Sh
 	sh := &domain.SNS{
 		ID:          req.ID,
 		Url:         req.Url,
+		Description: req.Description,
 		Shorten:     req.Shorten,
 		IsPermanent: h.Ptr(req.PermanentToBool()),
 	}
