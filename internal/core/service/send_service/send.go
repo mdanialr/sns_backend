@@ -74,6 +74,7 @@ func (s *sendSvc) Create(ctx context.Context, req *req.Send) (*res.SendResponse,
 	// prepare new object to be saved to DB
 	sn := &domain.SNS{
 		Url:         req.Url,
+		Description: req.Description,
 		Send:        &fn,
 		FileSize:    h.Ptr(h.BytesToHumanize(req.Send.Size)),
 		IsPermanent: h.Ptr(req.PermanentToBool()),
@@ -106,6 +107,7 @@ func (s *sendSvc) Update(ctx context.Context, req *req.SendUpdate) (*res.SendRes
 	sn := &domain.SNS{
 		ID:          req.ID,
 		Url:         req.Url,
+		Description: req.Description,
 		IsPermanent: h.Ptr(req.PermanentToBool()),
 	}
 	newSn, err := s.repo.Update(ctx, sn)

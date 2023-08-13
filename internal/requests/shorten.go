@@ -11,9 +11,10 @@ import (
 // Shorten standard request object that may be used to parse request in
 // /shorten & /shorten/create endpoints.
 type Shorten struct {
-	Url       string `json:"url" validate:"required"`
-	Shorten   string `json:"shorten" validate:"required,url"`
-	Permanent string `json:"permanent" validate:"required,boolean"`
+	Url         string `json:"url" validate:"required"`
+	Description string `json:"description" validate:"required"`
+	Shorten     string `json:"shorten" validate:"required,url"`
+	Permanent   string `json:"permanent" validate:"required,boolean"`
 
 	paginate.M
 	// Order the field name to query Order. Default to id.
@@ -66,10 +67,11 @@ func (s *Shorten) Validate() validator.ValidationErrors {
 // ShortenUpdate standard request object that may be used to parse request in
 // /shorten/update endpoint.
 type ShortenUpdate struct {
-	ID        uint    `json:"id" validate:"required,numeric"`
-	Url       string  `json:"url" validate:"required"`
-	Shorten   *string `json:"shorten" validate:"required,url"`
-	Permanent string  `json:"permanent" validate:"required,boolean"`
+	ID          uint    `json:"id" validate:"required,numeric"`
+	Url         string  `json:"url" validate:"required"`
+	Description string  `json:"description" validate:"required"`
+	Shorten     *string `json:"shorten" validate:"required,url"`
+	Permanent   string  `json:"permanent" validate:"required,boolean"`
 }
 
 // Validate validation rules for ShortenUpdate.

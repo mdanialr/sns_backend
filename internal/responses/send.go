@@ -11,6 +11,7 @@ import (
 type SendResponse struct {
 	ID          uint       `json:"id,omitempty"`
 	Url         string     `json:"url,omitempty"`
+	Description string     `json:"description"`
 	Send        *string    `json:"send,omitempty"`
 	FileSize    *string    `json:"file_size,omitempty"`
 	IsPermanent *bool      `json:"permanent,omitempty"`
@@ -23,6 +24,7 @@ func (s *SendResponse) FromDomain(sns *domain.SNS) {
 	if sns != nil {
 		s.ID = sns.ID
 		s.Url = sns.Url
+		s.Description = sns.Description
 		s.Send = sns.Send
 		s.FileSize = sns.FileSize
 		s.IsPermanent = sns.IsPermanent
@@ -44,6 +46,7 @@ func (s *SendIndexResponse) FromDomain(sns []*domain.SNS) {
 		d := &SendResponse{
 			ID:          sn.ID,
 			Url:         sn.Url,
+			Description: sn.Description,
 			Send:        sn.Send,
 			FileSize:    sn.FileSize,
 			IsPermanent: sn.IsPermanent,

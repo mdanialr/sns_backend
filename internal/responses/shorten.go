@@ -11,6 +11,7 @@ import (
 type ShortenResponse struct {
 	ID          uint       `json:"id,omitempty"`
 	Url         string     `json:"url,omitempty"`
+	Description string     `json:"description"`
 	Shorten     *string    `json:"shorten,omitempty"`
 	IsPermanent *bool      `json:"permanent,omitempty"`
 	CreatedAt   *time.Time `json:"created_at,omitempty"`
@@ -22,6 +23,7 @@ func (s *ShortenResponse) FromDomain(sns *domain.SNS) {
 	if sns != nil {
 		s.ID = sns.ID
 		s.Url = sns.Url
+		s.Description = sns.Description
 		s.Shorten = sns.Shorten
 		s.IsPermanent = sns.IsPermanent
 		s.CreatedAt = sns.CreatedAt
@@ -42,6 +44,7 @@ func (s *ShortenIndexResponse) FromDomain(sns []*domain.SNS) {
 		d := &ShortenResponse{
 			ID:          sn.ID,
 			Url:         sn.Url,
+			Description: sn.Description,
 			Shorten:     sn.Shorten,
 			IsPermanent: sn.IsPermanent,
 			CreatedAt:   sn.CreatedAt,

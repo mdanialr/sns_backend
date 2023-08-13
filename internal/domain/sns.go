@@ -10,6 +10,7 @@ import (
 type SNS struct {
 	ID          uint `gorm:"primaryKey"`
 	Url         string
+	Description string
 	Shorten     *string
 	Send        *string
 	FileSize    *string

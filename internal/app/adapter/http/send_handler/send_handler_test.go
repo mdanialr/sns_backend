@@ -25,7 +25,7 @@ const (
 )
 
 func TestSendHandler_Index(t *testing.T) {
-	const sampleOk = `{"status":"SUCCESS","data":[{"id":82,"url":"zoom-mixer","send":"upload/VWTIrBGnOCEwxuXLzjYcogl6eitF4f.png","file_size":"36.7KB","permanent":true,"created_at":"2021-04-28T18:27:45+07:00","updated_at":"2021-04-28T18:27:45+07:00"}],"meta":{"per_page":1,"current_page":1,"next_page":2,"total_page":20}}`
+	const sampleOk = `{"status":"SUCCESS","data":[{"id":82,"url":"zoom-mixer","description":"","send":"upload/VWTIrBGnOCEwxuXLzjYcogl6eitF4f.png","file_size":"36.7KB","permanent":true,"created_at":"2021-04-28T18:27:45+07:00","updated_at":"2021-04-28T18:27:45+07:00"}],"meta":{"per_page":1,"current_page":1,"next_page":2,"total_page":20}}`
 
 	testCases := []struct {
 		name           string
