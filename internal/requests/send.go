@@ -12,9 +12,10 @@ import (
 // Send standard request object that may be used to parse request in
 // /send.
 type Send struct {
-	Url       string                `form:"url" validate:"required"`
-	Send      *multipart.FileHeader `form:"send" validate:"required"`
-	Permanent string                `form:"permanent" validate:"required,boolean"`
+	Url         string                `form:"url" validate:"required"`
+	Description string                `form:"description" validate:"required"`
+	Send        *multipart.FileHeader `form:"send" validate:"required"`
+	Permanent   string                `form:"permanent" validate:"required,boolean"`
 
 	paginate.M
 	// Order the field name to query Order. Default to id.
@@ -67,10 +68,11 @@ func (s *Send) Validate() validator.ValidationErrors {
 // SendUpdate standard request object that may be used to parse request in
 // /send/update endpoint.
 type SendUpdate struct {
-	ID        uint   `form:"id" validate:"required,numeric"`
-	Url       string `form:"url" validate:"required"`
-	Send      *multipart.FileHeader
-	Permanent string `form:"permanent" validate:"required,boolean"`
+	ID          uint   `form:"id" validate:"required,numeric"`
+	Url         string `form:"url" validate:"required"`
+	Description string `form:"description" validate:"required"`
+	Send        *multipart.FileHeader
+	Permanent   string `form:"permanent" validate:"required,boolean"`
 }
 
 // Validate validation rules for SendUpdate.
