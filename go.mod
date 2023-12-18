@@ -9,7 +9,7 @@ require (
 	github.com/gofiber/helmet/v2 v2.2.26
 	github.com/gofiber/jwt/v3 v3.3.10
 	github.com/golang-jwt/jwt/v4 v4.5.0
-	github.com/google/uuid v1.3.1
+	github.com/google/uuid v1.5.0
 	github.com/spf13/viper v1.17.0
 	github.com/stretchr/testify v1.8.4
 	gorm.io/driver/postgres v1.5.2
